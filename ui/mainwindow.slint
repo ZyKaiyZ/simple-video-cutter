@@ -5,20 +5,51 @@ export component MainWindow inherits Window {
     in-out property<string> end_time: "00:00:00";
     in-out property <string> input_file: "No file selected";
     callback clip_video();
+
     VerticalBox {
-        Text {
-            text: "Start Time: \{root.start_time}";
+            Row{
+                Text {
+                    text: "Start Time:";
+                }
+
+                new_start_time := TextInput {
+                    text: "00:00:00";
+    
+                    edited => {
+                        root.start_time = new_start_time.text;
+                    }
+                }
+            }
+            Row{
+                Text {
+                    text: "End Time:";
+                }
+                new_end_time := TextInput {
+                    text: "00:00:00";
+    
+                    edited => {
+                        root.end_time = new_end_time.text;
+                    }
+                }
+            }
+            Row{
+                Text {
+                    text: "File Name:";
+                }
+                new_input_file := TextInput {
+                    text: "";
+    
+                    edited => {
+                        root.input_file = new_input_file.text;
+                    }
+                }
+            }
         }
-        Text {
-            text: "End Time: \{root.end_time}";
-        }
-        Text {
-            text: "File Name: \{root.input_file}";
-        }
+
         Button {
             text: "Start Clip";
             clicked => {
-                root.clip-video();
+                root.clip_video();
             }
         }
     }
