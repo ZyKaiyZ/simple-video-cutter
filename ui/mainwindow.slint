@@ -1,0 +1,25 @@
+import { Button, VerticalBox } from "std-widgets.slint";
+
+export component MainWindow inherits Window {
+    in-out property<string> start_time: "00:00:00";
+    in-out property<string> end_time: "00:00:00";
+    in-out property <string> input_file: "No file selected";
+    callback clip_video();
+    VerticalBox {
+        Text {
+            text: "Start Time: \{root.start_time}";
+        }
+        Text {
+            text: "End Time: \{root.end_time}";
+        }
+        Text {
+            text: "File Name: \{root.input_file}";
+        }
+        Button {
+            text: "Start Clip";
+            clicked => {
+                root.clip-video();
+            }
+        }
+    }
+}
