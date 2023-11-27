@@ -1,6 +1,19 @@
 use std::process::Command;
 slint::include_modules!();
 
+fn is_ffmpeg_installed() -> bool {
+    let output = Command::new("ffmpeg")
+        .arg("-version")
+        .output()
+        .ok();
+
+    if let Some(output) = output {
+        output.status.success()
+    } else {
+        false
+    }
+}
+
 fn clip_video(start_time: &str, end_time: &str, input_file: &str){
     let output_file = input_file.replace(".mp4", "_clip.mp4");
     let command = format!("ffmpeg -ss {} -to {} -i {} {}", start_time, end_time, input_file, output_file);
@@ -30,7 +43,12 @@ fn ui() -> Result<(), slint::PlatformError> {
 fn main() {
     if cfg!(target_os = "windows") {
         println!("This is windows");
-        ui().unwrap();
+
+        if is_ffmpeg_installed() {
+            ui().unwrap();
+        } else {
+            println!("Error: ffmpeg is not installed. Please install ffmpeg and try again.");
+        }
     } else if cfg!(target_os = "linux") {
         println!("This is linux");
         // todo
