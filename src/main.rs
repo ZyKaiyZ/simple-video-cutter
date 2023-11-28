@@ -19,9 +19,9 @@ fn is_ffmpeg_installed() -> bool {
 fn main() {
     if cfg!(target_os = "windows") {
         println!("This is windows");
-        ui().unwrap();
 
         if is_ffmpeg_installed() {
+            ui().unwrap();
         } else {
             println!("Error: ffmpeg is not installed. Please install ffmpeg and try again.");
         }

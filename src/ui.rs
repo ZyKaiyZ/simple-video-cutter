@@ -1,6 +1,12 @@
 use slint::{SharedString, ModelRc, VecModel};
-use std::{fs, rc::Rc, process::Command};
+use std::{fs, rc::Rc, process::Command, ops::Add};
 slint::include_modules!();
+
+fn show_info(start_time: &str, end_time: &str, input_file: &str){
+    println!("start_time: {}", start_time);
+    println!("end_time: {}", end_time);
+    println!("input_file: {}", input_file);
+}
 
 fn clip_video(start_time: &str, end_time: &str, input_file: &str){
     let output_file = input_file.replace(".mp4", "_clip.mp4");
@@ -11,6 +17,7 @@ fn clip_video(start_time: &str, end_time: &str, input_file: &str){
         .expect("Failed to execute process");
 
     println!("output: {:?}", String::from_utf8_lossy(&output.stdout));
+    show_info(start_time, end_time, input_file);
 }
 
 fn find_mp4_files(directory: &str) -> Result<Vec<String>, std::io::Error> {
@@ -22,7 +29,7 @@ fn find_mp4_files(directory: &str) -> Result<Vec<String>, std::io::Error> {
                 let path = e.path();
                 let extension = path.extension()?.to_string_lossy().to_lowercase();
                 if extension == "mp4" {
-                    Some(path.file_stem()?.to_string_lossy().to_string())
+                    Some(path.file_stem()?.to_string_lossy().to_string().add(".mp4"))
                 } else {
                     None
                 }
