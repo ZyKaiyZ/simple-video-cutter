@@ -7,41 +7,54 @@ export component MainWindow inherits Window {
     in-out property<[string]> file_list: [];
     callback clip_video();
 
-    VerticalBox {
-        GridLayout{
-            Row{
-                Text {
-                    text: "Start Time:";
-                }
+    title: "Simple Video Cutter";
+    always-on-top: true;
+    preferred-height: 600px;
+    preferred-width: 400px;
+    icon: @image-url("../assets/rust-logo-32.png");
 
-                new_start_time := TextInput {
-                    text: "00:00:00";
-    
-                    edited => {
-                        root.start_time = new_start_time.text;
-                    }
+    VerticalBox {
+        Image {
+            source: @image-url("../assets/ferris-rust.png");
+            width: parent.width;
+            height: 250px;
+        }
+
+        GridLayout{
+            height: 30px;
+
+            Text {
+                text: "Start Time:";
+            }
+            new_start_time := TextInput {
+                text: "00:00:00";
+
+                edited => {
+                    root.start_time = new_start_time.text;
                 }
             }
-            Row{
-                Text {
-                    text: "End Time:";
-                }
-                new_end_time := TextInput {
-                    text: "00:00:00";
-    
-                    edited => {
-                        root.end_time = new_end_time.text;
-                    }
-                }
+            Text {
+                text: "End Time:";
             }
-            list := ComboBox  {
-                model : root.file_list;
-                selected => {
-                    root.input_file = list.current-value;
+            new_end_time := TextInput {
+                text: "00:00:00";
+
+                edited => {
+                    root.end_time = new_end_time.text;
                 }
             }
         }
+        list := ComboBox  {
+            height: 30px;
+
+            model : root.file_list;
+            selected => {
+                root.input_file = list.current-value;
+            }
+        }
         Button {
+            height: 80px;
+
             text: "Start Clip";
             clicked => {
                 root.clip_video();
