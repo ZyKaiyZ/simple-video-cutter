@@ -1,9 +1,10 @@
-import { Button, VerticalBox } from "std-widgets.slint";
+import { Button, VerticalBox, ComboBox } from "std-widgets.slint";
 
 export component MainWindow inherits Window {
     in-out property<string> start_time: "00:00:00";
     in-out property<string> end_time: "00:00:00";
-    in-out property <string> input_file: "No file selected";
+    in-out property<string> input_file: "No file selected";
+    in-out property<[string]> file_list: [];
     callback clip_video();
 
     VerticalBox {
@@ -33,16 +34,10 @@ export component MainWindow inherits Window {
                     }
                 }
             }
-            Row{
-                Text {
-                    text: "File Name:";
-                }
-                new_input_file := TextInput {
-                    text: "";
-    
-                    edited => {
-                        root.input_file = new_input_file.text;
-                    }
+            list := ComboBox  {
+                model : root.file_list;
+                selected => {
+                    root.input_file = list.current-value;
                 }
             }
         }
